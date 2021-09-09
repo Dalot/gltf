@@ -1,5 +1,6 @@
 use crate::{texture, Document};
 
+use gltf_json::extensions::texture::TextureTransformOffset;
 pub use json::material::AlphaMode;
 
 lazy_static! {
@@ -99,9 +100,11 @@ impl<'a> Material<'a> {
     #[cfg(feature = "KHR_materials_pbrSpecularGlossiness")]
     #[cfg_attr(docsrs, doc(cfg(feature = "KHR_materials_pbrSpecularGlossiness")))]
     pub fn pbr_specular_glossiness(&self) -> Option<PbrSpecularGlossiness<'a>> {
-        self.json.extensions
+        self.json
+            .extensions
             .as_ref()?
-            .pbr_specular_glossiness.as_ref()
+            .pbr_specular_glossiness
+            .as_ref()
             .map(|x| PbrSpecularGlossiness::new(self.document, x))
     }
 
@@ -109,9 +112,11 @@ impl<'a> Material<'a> {
     #[cfg(feature = "KHR_materials_transmission")]
     #[cfg_attr(docsrs, doc(cfg(feature = "KHR_materials_transmission")))]
     pub fn transmission(&self) -> Option<Transmission<'a>> {
-        self.json.extensions
+        self.json
+            .extensions
             .as_ref()?
-            .transmission.as_ref()
+            .transmission
+            .as_ref()
             .map(|x| Transmission::new(self.document, x))
     }
 
@@ -119,10 +124,7 @@ impl<'a> Material<'a> {
     #[cfg(feature = "KHR_materials_ior")]
     #[cfg_attr(docsrs, doc(cfg(feature = "KHR_materials_ior")))]
     pub fn ior(&self) -> Option<f32> {
-        self.json.extensions
-            .as_ref()?
-            .ior.as_ref()
-            .map(|x| x.ior.0)
+        self.json.extensions.as_ref()?.ior.as_ref().map(|x| x.ior.0)
     }
 
     /// A tangent space normal map.
@@ -136,7 +138,7 @@ impl<'a> Material<'a> {
     ///
     /// The normal vectors use OpenGL conventions where +X is right, +Y is up, and
     /// +Z points toward the viewer.
-    pub fn normal_texture(&self) -> Option<NormalTexture<'a>> {
+    pub fn normal_texture(&self) -> Option<NormalTexture> {
         self.json.normal_texture.as_ref().map(|json| {
             let texture = self.document.textures().nth(json.index.value()).unwrap();
             NormalTexture::new(texture, json)
@@ -180,15 +182,16 @@ impl<'a> Material<'a> {
     }
 
     /// Specifies whether the material is unlit.
-    /// 
-    /// Returns `true` if the [`KHR_materials_unlit`] property was specified, in which 
+    ///
+    /// Returns `true` if the [`KHR_materials_unlit`] property was specified, in which
     /// case the renderer should prefer to ignore all PBR values except `baseColor`.
-    /// 
+    ///
     /// [`KHR_materials_unlit`](https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_unlit#overview)
     #[cfg(feature = "KHR_materials_unlit")]
     #[cfg_attr(docsrs, doc(cfg(feature = "KHR_materials_unlit")))]
     pub fn unlit(&self) -> bool {
-        self.json.extensions
+        self.json
+            .extensions
             .as_ref()
             .map_or(false, |extensions| extensions.unlit.is_some())
     }
@@ -437,6 +440,16 @@ impl<'a> NormalTexture<'a> {
     pub fn extras(&self) -> &'a json::Extras {
         &self.json.extras
     }
+
+    /// Extensions specific data.
+    pub fn extensions(&self) -> Option<json::extensions::material::NormalTexture> {
+        self.json.extensions.clone()
+    }
+
+    /// Returns the offset of the texture transform data inside extensions.
+    pub fn offset(&self) -> TextureTransformOffset {
+        self.extensions().unwrap().texture_transform.offset
+    }
 }
 
 /// Defines the occlusion texture of a material.
@@ -474,7 +487,7 @@ impl<'a> OcclusionTexture<'a> {
     pub fn texture(&self) -> texture::Texture<'a> {
         self.texture.clone()
     }
-    
+
     /// Optional application specific data.
     pub fn extras(&self) -> &'a json::Extras {
         &self.json.extras

@@ -85,7 +85,10 @@ pub struct PbrSpecularGlossiness {
 
 /// Defines the normal texture of a material.
 #[derive(Clone, Debug, Default, Deserialize, Serialize, Validate)]
-pub struct NormalTexture {}
+pub struct NormalTexture {
+    #[serde(rename = "KHR_texture_transform")]
+    pub texture_transform: crate::extensions::texture::TextureTransform,
+}
 
 /// Defines the occlusion texture of a material.
 #[derive(Clone, Debug, Default, Deserialize, Serialize, Validate)]

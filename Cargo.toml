@@ -34,7 +34,7 @@ optional = true
 version = "0.23"
 
 [features]
-default = ["import", "utils", "names"]
+default = ["import", "utils", "names", "KHR_texture_transform"]
 extras = ["gltf-json/extras"]
 names = ["gltf-json/names"]
 utils = []
