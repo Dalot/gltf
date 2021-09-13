@@ -90,7 +90,7 @@ pub struct Mesh<'a>  {
     index: usize,
 
     /// The corresponding JSON struct.
-    json: &'a json::mesh::Mesh,
+    pub json: &'a json::mesh::Mesh,
 }
 
 /// A single morph target for a mesh primitive.

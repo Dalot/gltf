@@ -17,7 +17,7 @@ pub struct Material<'a> {
     index: Option<usize>,
 
     /// The corresponding JSON struct.
-    json: &'a json::material::Material,
+    pub json: &'a json::material::Material,
 }
 
 impl<'a> Material<'a> {

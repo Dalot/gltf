@@ -25,7 +25,7 @@ pub struct Skin<'a> {
     index: usize,
 
     /// The corresponding JSON struct.
-    json: &'a json::skin::Skin,
+    pub json: &'a json::skin::Skin,
 }
 
 impl<'a> Skin<'a> {

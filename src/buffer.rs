@@ -15,7 +15,7 @@ pub struct Buffer<'a> {
     index: usize,
 
     /// The corresponding JSON struct.
-    json: &'a json::buffer::Buffer,
+    pub json: &'a json::buffer::Buffer,
 }
 
 /// A view into a buffer generally representing a subset of the buffer.
@@ -28,7 +28,7 @@ pub struct View<'a> {
     index: usize,
 
     /// The corresponding JSON struct.
-    json: &'a json::buffer::View,
+    pub json: &'a json::buffer::View,
 
     /// The parent `Buffer`.
     parent: Buffer<'a>,

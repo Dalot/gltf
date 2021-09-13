@@ -87,7 +87,7 @@ pub struct Node<'a> {
     index: usize,
 
     /// The corresponding JSON struct.
-    json: &'a json::scene::Node,
+    pub json: &'a json::scene::Node,
 }
 
 /// The root nodes of a scene.
@@ -101,7 +101,7 @@ pub struct Scene<'a> {
     index: usize,
 
     /// The corresponding JSON struct.
-    json: &'a json::scene::Scene,
+    pub json: &'a json::scene::Scene,
 }
 
 impl<'a> Node<'a> {

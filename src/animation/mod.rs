@@ -27,7 +27,7 @@ pub struct Animation<'a> {
     index: usize,
 
     /// The corresponding JSON struct.
-    json: &'a json::animation::Animation,
+    pub json: &'a json::animation::Animation,
 }
 
 /// Targets an animation's sampler at a node's property.

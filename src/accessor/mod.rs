@@ -82,7 +82,7 @@ pub struct Accessor<'a> {
     index: usize,
 
     /// The corresponding JSON struct.
-    json: &'a json::accessor::Accessor,
+    pub json: &'a json::accessor::Accessor,
 }
 
 impl<'a> Accessor<'a> {

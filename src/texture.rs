@@ -10,7 +10,7 @@ lazy_static! {
 #[derive(Clone, Debug)]
 pub struct Info<'a> {
     /// The parent `Texture` struct.
-    texture: Texture<'a>,
+    pub texture: Texture<'a>,
 
     /// The corresponding JSON struct.
     json: &'a json::texture::Info,
@@ -40,7 +40,7 @@ pub struct Texture<'a> {
     index: usize,
 
     /// The corresponding JSON struct.
-    json: &'a json::texture::Texture,
+    pub json: &'a json::texture::Texture,
 }
 
 impl<'a> Sampler<'a> {

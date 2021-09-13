@@ -21,7 +21,7 @@ pub struct Camera<'a> {
     index: usize,
 
     /// The corresponding JSON struct.
-    json: &'a json::camera::Camera,
+    pub json: &'a json::camera::Camera,
 }
 
 ///  Values for an orthographic camera projection.

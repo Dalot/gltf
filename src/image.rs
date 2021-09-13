@@ -72,7 +72,7 @@ pub struct Image<'a> {
     index: usize,
 
     /// The corresponding JSON struct.
-    json: &'a json::image::Image,
+    pub json: &'a json::image::Image,
 }
 
 /// Image data belonging to an imported glTF asset.
