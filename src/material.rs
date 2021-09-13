@@ -139,7 +139,7 @@ impl<'a> Material<'a> {
     /// The normal vectors use OpenGL conventions where +X is right, +Y is up, and
     /// +Z points toward the viewer.
     pub fn normal_texture(&self) -> Option<NormalTexture> {
-        self.json.normal_texture.as_ref().map(|json| {
+        self.json.clone().normal_texture.as_mut().map(|json| {
             let texture = self.document.textures().nth(json.index.value()).unwrap();
             NormalTexture::new(texture, json)
         })
@@ -406,14 +406,14 @@ pub struct NormalTexture<'a> {
     texture: texture::Texture<'a>,
 
     /// The corresponding JSON struct.
-    json: &'a json::material::NormalTexture,
+    json: &'a mut json::material::NormalTexture,
 }
 
 impl<'a> NormalTexture<'a> {
     /// Constructs a `NormalTexture`.
     pub(crate) fn new(
         texture: texture::Texture<'a>,
-        json: &'a json::material::NormalTexture,
+        json: &'a mut json::material::NormalTexture,
     ) -> Self {
         Self {
             texture: texture,
@@ -437,7 +437,7 @@ impl<'a> NormalTexture<'a> {
     }
 
     /// Optional application specific data.
-    pub fn extras(&self) -> &'a json::Extras {
+    pub fn extras(&'a self) -> &'a json::Extras {
         &self.json.extras
     }
 
@@ -449,6 +449,12 @@ impl<'a> NormalTexture<'a> {
     /// Returns the offset of the texture transform data inside extensions.
     pub fn offset(&self) -> TextureTransformOffset {
         self.extensions().unwrap().texture_transform.offset
+    }
+
+    /// Mutates the offset of the texture transform data inside extensions.
+    pub fn set_offset(&mut self, new_offset: TextureTransformOffset) -> TextureTransformOffset {
+        self.json.extensions.as_mut().unwrap().texture_transform.offset = new_offset;
+        new_offset
     }
 }
 
